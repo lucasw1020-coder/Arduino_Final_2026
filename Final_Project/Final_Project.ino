@@ -24,6 +24,11 @@ pinMode(32, OUTPUT);
 
 Serial.begin(9600);
 lcd.begin(16,2);
+lcd.setCursor(0, 0);
+lcd.print("Initializing");
+lcd.setCursor(0, 1);
+lcd.print("Home Control.");
+delay(2000);
 lcd.clear();    
 
 }
@@ -31,11 +36,6 @@ lcd.clear();
 void loop() {
 
 lcd.setCursor(0, 0);
-lcd.print("Initializing");
-lcd.setCursor(0, 1);
-lcd.print("Home Control.");
 
-digitalWrite(frigid_2, HIGH);
-digitalWrite(frigid_1, HIGH);
 
 }
