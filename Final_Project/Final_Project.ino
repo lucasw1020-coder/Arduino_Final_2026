@@ -1,9 +1,19 @@
+#include <LiquidCrystal.h>
+#include <DHT.h>   
+#include <Servo.h>
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8, 7); 
+
 void setup() {
-  // put your setup code here, to run once:
+Serial.begin(9600);
+lcd.begin(16,2);
+lcd.print("Home System Activated");
+lcd.clear();    
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+lcd.setCursor(0, 0);
+lcd.print("Lucas > Luke LMAO");
 
 }
