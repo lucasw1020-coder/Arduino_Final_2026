@@ -13,6 +13,8 @@ const int cold = 32;
 const int frigid_1 = 26;
 const int frigid_2 = 32;
 
+int switchVal = digitalRead(13);
+
 int lastSection = -1;
 
 void setup() {
@@ -23,6 +25,7 @@ pinMode(26, OUTPUT);
 pinMode(28, OUTPUT);
 pinMode(30, OUTPUT);
 pinMode(32, OUTPUT);
+pinMode(13, INPUT);
 
 Serial.begin(9600);
 lcd.begin(16,2);
@@ -38,6 +41,10 @@ lcd.clear();
 void loop() {
 
 lcd.setCursor(0, 0);
+
+switchVal = digitalRead(13);
+Serial.println(switchVal);
+if (switchVal == 1){
 
 int color_potValue = analogRead(A0);
 
@@ -106,4 +113,5 @@ default:
 
  lastSection = section;
   }
+}
 }
