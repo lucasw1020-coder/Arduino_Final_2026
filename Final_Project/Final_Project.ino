@@ -13,6 +13,8 @@ const int cold = 26;
 const int frigid_1 = 26;
 const int frigid_2 = 32;
 
+int wait = analogRead(A_); // add port
+
 void setup() {
 
 pinMode(22, OUTPUT);
