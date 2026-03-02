@@ -13,9 +13,13 @@ const int cold = 32;
 const int frigid_1 = 26;
 const int frigid_2 = 32;
 
+int temp_dial = analogRead(A0);
 int switchVal = digitalRead(13);
-
+int switchVal_2 = digitalRead(A12);
 int lastSection = -1;
+float voltage = analogRead(A1) * .0049;
+float temperatureCelsius = (voltage - .5) * 100;                       
+float temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
 
 void setup() {
 
@@ -26,6 +30,8 @@ pinMode(28, OUTPUT);
 pinMode(30, OUTPUT);
 pinMode(32, OUTPUT);
 pinMode(13, INPUT);
+pinMode(36, INPUT);
+pinMode(A12, INPUT);
 
 Serial.begin(9600);
 lcd.begin(16,2);
@@ -40,13 +46,28 @@ lcd.clear();
 
 void loop() {
 
+//Serial.println(switchVal);
+Serial.println(switchVal_2);
+
 lcd.setCursor(0, 0);
 
 switchVal = digitalRead(13);
-Serial.println(switchVal);
+switchVal_2 = analogRead(A12) >= 5;
+//Serial.println(switchVal);
 if (switchVal == 1){
+  if(switchVal_2 == 0){
 
 int color_potValue = analogRead(A0);
+int temp_dial = analogRead(A0);
+lcd.print("Temp Set: " + String(45 + (30.0 * temp_dial / 691.0)));
+delay(50);
+
+float voltage = analogRead(A1) * .0049;
+float temperatureCelsius = (voltage - .5) * 100;                       
+float temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
+
+//Serial.println("Temp Cel Value: " + String(temperatureCelsius));
+//Serial.println("Temp Far Value: " + String(temperatureFahrenheit));
 
 int section;
 
@@ -58,8 +79,8 @@ else {
   section = color_potValue * 5 / 1024;
 }  
 
-Serial.println(section);
-Serial.println(color_potValue);
+//Serial.println(section);
+//Serial.println(color_potValue);
   if(section != lastSection) {
 
     // Turn everything off ONCE
@@ -113,5 +134,22 @@ default:
 
  lastSection = section;
   }
+  }
+  else{
+    float voltage = analogRead(A1) * .0049;
+    float temperatureCelsius = (voltage - .5) * 100;                       
+    float temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
+    lcd.print("Temp Real : " + String(temperatureFahrenheit));
+  }
+}
+
+else{
+  lcd.clear();
+  digitalWrite(22, LOW);
+  digitalWrite(24, LOW);
+  digitalWrite(26, LOW);
+  digitalWrite(28, LOW);
+  digitalWrite(30, LOW);
+  digitalWrite(32, LOW);
 }
 }
