@@ -13,6 +13,10 @@ const int cold = 32;
 const int frigid_1 = 26;
 const int frigid_2 = 32;
 
+
+#define DHTPIN 36
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
 int temp_dial = analogRead(A0);
 int switchVal = digitalRead(13);
 int switchVal_2 = digitalRead(A12);
@@ -20,9 +24,11 @@ int lastSection = -1;
 float voltage = analogRead(A1) * .0049;
 float temperatureCelsius = (voltage - .5) * 100;                       
 float temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
+float humidity_val = 0;
 
 void setup() {
 
+dht.begin();
 pinMode(22, OUTPUT);
 pinMode(24, OUTPUT);
 pinMode(26, OUTPUT);
@@ -57,6 +63,7 @@ switchVal_2 = analogRead(A12) >= 5;
 if (switchVal == 1){
   if(switchVal_2 == 0){
 
+lcd.clear();
 int color_potValue = analogRead(A0);
 int temp_dial = analogRead(A0);
 lcd.print("Temp Set: " + String(45 + (30.0 * temp_dial / 691.0)));
@@ -136,10 +143,13 @@ default:
   }
   }
   else{
+    humidity_val = dht.readHumidity(36);
     float voltage = analogRead(A1) * .0049;
     float temperatureCelsius = (voltage - .5) * 100;                       
     float temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
     lcd.print("Temp Real : " + String(temperatureFahrenheit));
+    lcd.setCursor(0, 1);
+    lcd.print("Humid Real: " + String(humidity_val));
   }
 }
 
