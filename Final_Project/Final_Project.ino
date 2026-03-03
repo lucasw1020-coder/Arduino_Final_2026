@@ -3,6 +3,7 @@
 #include <Servo.h>
 
 LiquidCrystal lcd(8, 7, 6, 5, 4, 3); 
+Servo   servo1;
 
 const int hot_1 = 22;
 const int hot_2 = 28;
@@ -40,6 +41,7 @@ pinMode(36, INPUT);
 pinMode(A12, INPUT);
 
 Serial.begin(9600);
+servo1.attach(37);
 lcd.begin(16,2);
 lcd.setCursor(0, 0);
 lcd.print("Initializing");
@@ -141,6 +143,15 @@ default:
 
  lastSection = section;
   }
+  if (int(50 + (30.0 * temp_dial / 691.0)) < int(temperatureFahrenheit)){
+
+servo1.write(200);
+
+}
+else{
+
+  servo1.write(70);
+}
   }
   else{
     humidity_val = dht.readHumidity(36);
@@ -151,6 +162,7 @@ default:
     lcd.setCursor(0, 1);
     lcd.print("Humid Real: " + String(humidity_val));
   }
+
 }
 
 else{
