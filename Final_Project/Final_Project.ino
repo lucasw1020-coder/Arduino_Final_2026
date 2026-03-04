@@ -145,12 +145,12 @@ default:
   }
   if (int(50 + (30.0 * temp_dial / 691.0)) < int(temperatureFahrenheit)){
 
-servo1.write(200);
+servo1.write(100);
 
 }
 else{
 
-  servo1.write(70);
+ servo1.write(195);
 }
   }
   else{
