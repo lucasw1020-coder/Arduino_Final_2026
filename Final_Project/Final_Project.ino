@@ -52,6 +52,17 @@ lcd.clear();
 
 }
 
+void controlServo(int temp_dial, float temperatureFahrenheit){
+  Serial.println("Servo function running");
+
+  if (int(50 + (30.0 * temp_dial / 691.0)) < int(temperatureFahrenheit)){
+    servo1.write(100);
+  }
+  else{
+    servo1.write(180);
+  }
+}
+
 void loop() {
 
 //Serial.println(switchVal);
@@ -143,15 +154,9 @@ default:
 
  lastSection = section;
   }
-  if (int(50 + (30.0 * temp_dial / 691.0)) < int(temperatureFahrenheit)){
-
-servo1.write(100);
-
-}             // servo opens window depending on the comparison of the real and desired temp value. 
-else{
-
- servo1.write(195);
-}
+ temp_dial = analogRead(A0);
+controlServo(temp_dial, temperatureFahrenheit);
+ temperatureFahrenheit = temperatureCelsius * (9.0/5.0) +32.0;
   }
   else{
     humidity_val = dht.readHumidity(36);
